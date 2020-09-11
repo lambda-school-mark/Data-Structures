@@ -24,17 +24,23 @@ class BSTNode:
 
         new_node = BSTNode(value)
 
+        # If value is greater than node
         if value >= self.value:
+            # Then if there no node to the right
             if self.right == None:
+                # Create new node
                 self.right = new_node
-                return value
             else:
+                # If there is a node, insert the new value
                 self.right.insert(value)
+        # If value is smaller than node
         if value < self.value:
+            # Then if there no node to the left
             if self.left == None:
+                # Create new node
                 self.left = new_node
-                return value
             else:
+                # If there is a node, insert the new value
                 self.left.insert(value)
 
     # Return True if the tree contains the value
@@ -52,18 +58,28 @@ class BSTNode:
 
     # Return the maximum value found in the tree
     def get_max(self):
+        # Look through the right since it contains max value
+        # If there is no node to the right
         if self.right == None:
+            # Return the max value
             return self.value
         else:
+            # Otherwise keep searching right max value
             return self.right.get_max()
 
     # Call the function `fn` on the value of each node
 
     def for_each(self, fn):
+        # Get value
         fn(self.value)
+
+        # If anything to the right
         if self.right:
+            # Recurse and get its value
             self.right.for_each(fn)
+        # If anything to the left
         if self.left:
+            # Recurse and get its value
             self.left.for_each(fn)
 
     # * Part 2 -----------------------
@@ -88,18 +104,27 @@ class BSTNode:
     # in an iterative breadth first traversal
 
     def bft_print(self):
+        # Call queue
         queue = Queue()
 
         current_node = self
+        # Grab starting node and put it in the queue
         queue.enqueue(current_node)
 
+        # If there are items in the queue
         while queue.size > 0:
+            # dequeue the current node
             current_node = queue.dequeue()
+            # print the nodes value
             print(current_node.value)
 
+            # check if left child exists
             if current_node.left is not None:
+                # enqueue left child
                 queue.enqueue(current_node.left)
+            # check if right child exists
             if current_node.right is not None:
+                # enqueue right child
                 queue.enqueue(current_node.right)
 
     # Print the value of every node, starting with the given node,
@@ -109,30 +134,54 @@ class BSTNode:
 
         current_node = self
 
-        if current_node is None:
-            return
-
+        # Grab starting node and put it in the stack
         stack.push(current_node)
 
+        # If there are items in the stack
         while stack.size > 0:
+            # pop the current node
             current_node = stack.pop()
+            # print visited
             print(current_node.value)
-
+            # check left
             if current_node.left is not None:
+                # push left
                 stack.push(current_node.left)
+            # check right
             if current_node.right is not None:
+                # push right
                 stack.push(current_node.right)
 
     # Stretch Goals -------------------------
     # Note: Research may be required
 
     # Print Pre-order recursive DFT
+    # Preorder (Root, Left, Right)
     def pre_order_dft(self):
-        pass
+        # Get root node first
+        print(self.value)
+        # check if there is a left child node
+        if self.left is not None:
+            # continue through left and print it (recursive)
+            self.left.pre_order_dft()
+        # check if there is a right child node
+        if self.right is not None:
+            # continue through right and print it (recursive)
+            self.right.pre_order_dft()
 
     # Print Post-order recursive DFT
+    # Postorder (Left, Right, Root)
     def post_order_dft(self):
-        pass
+        # check if there is a left child node
+        if self.left is not None:
+            # continue through left and print it
+            self.left.post_order_dft()
+        # check if there is a right child node
+        if self.right is not None:
+            # continue through right and print it
+            self.right.post_order_dft()
+        # call function on root node's value last
+        print(self.value)
 
 
 """
@@ -151,10 +200,10 @@ bst.insert(2)
 bst.bft_print()
 bst.dft_print()
 
-# print("elegant methods")
-# print("pre order")
-# bst.pre_order_dft()
+print("elegant methods")
+print("pre order")
+bst.pre_order_dft()
 print("in order")
 bst.in_order_print()
-# print("post order")
-# bst.post_order_dft()
+print("post order")
+bst.post_order_dft()
